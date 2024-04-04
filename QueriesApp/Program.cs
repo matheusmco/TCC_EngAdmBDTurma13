@@ -6,16 +6,16 @@
 using Microsoft.EntityFrameworkCore;
 
 var beginTime = DateTime.Now.Ticks;
-int qty = 1000000;
+int qty = 10;
 int[] accountsRange = { 1, qty };
 Random random = new Random();
 
 var inserts = CreateInserts();
 
-using var db = new SQLContext();
+using var db = CreateContext();
 
 // TODO: insert one transaction at a time, assyncronously
-db.Database.ExecuteSqlRaw("DELETE FROM POCOS");
+// db.Database.ExecuteSqlRaw("DELETE FROM POCOS");
 db.AddRange(inserts);
 db.SaveChanges();
 Console.WriteLine($"finished insert:{TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
@@ -59,4 +59,10 @@ IEnumerable<IEnumerable<POCO>> CreateSelects()
         var timestamp = new DateTimeOffset(DateTime.Now.AddDays(range * -1)).ToUnixTimeSeconds();
         yield return db.POCOS.Where(_ => _.AccountId == accountId && _.Timestamp > timestamp);
     }
+}
+
+static POCOContext CreateContext()
+{
+    return new MongoContext();
+    // return new SQLContext();
 }
