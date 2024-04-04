@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 
-public class SQLContext : POCOContext
+public class SQLContext : DbContext
 {
+    public DbSet<SQLPOCO> POCOS { get; init; }
+
     public SQLContext()
     {
     }
