@@ -22,7 +22,6 @@ public class MongoPOCO
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
     public int AccountId { get; set; }
-    [BsonRepresentation(BsonType.Double)]
     public double Value { get; set; }
     public long Timestamp { get; set; }
 

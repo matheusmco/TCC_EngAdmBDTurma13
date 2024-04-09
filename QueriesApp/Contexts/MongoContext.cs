@@ -2,7 +2,6 @@ using MongoDB.Driver;
 
 public class MongoContext
 {
-    // TODO: modify to access mongo database
     public IMongoCollection<MongoPOCO> POCO { get; init; }
 
 

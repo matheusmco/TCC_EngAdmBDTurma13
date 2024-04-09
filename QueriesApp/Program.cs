@@ -3,6 +3,5 @@
 *   - select type (insert/select) by args
 *   - select database by args
 */
-
-//new SQLService().Execute();
-new MongoService().Execute();
+int quantity = 10000;
+new MongoService(quantity).Execute();
