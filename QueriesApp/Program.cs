@@ -1,7 +1,12 @@
 ﻿/* TODO:
-*   - select qty by args
 *   - select type (insert/select) by args
-*   - select database by args
 */
-int quantity = 10;
-new SQLService(quantity).Execute();
+int quantity = int.Parse(args[0]);
+string database = args[1];
+
+if(database == "sql")
+    new SQLService(quantity).Execute();
+else if (database == "mongo")
+    new MongoService(quantity).Execute();
+else
+    Console.WriteLine("No valid database informed");
