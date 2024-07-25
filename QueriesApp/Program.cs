@@ -1,12 +1,19 @@
 ﻿/* TODO:
 *   - select type (insert/select) by args
 */
-int quantity = int.Parse(args[0]);
-string database = args[1];
+string executionType = args[0];
+int quantity = int.Parse(args[1]);
+string database = args[2];
 
-if(database == "sql")
-    new SQLService(quantity).Execute();
-else if (database == "mongo")
-    new MongoService(quantity).Execute();
-else
-    Console.WriteLine("No valid database informed");
+switch (database)
+{
+    case "sql":
+        new SQLService(quantity).Execute(executionType);
+        break;
+    case "mongo":
+        new MongoService(quantity).Execute(executionType);
+        break;
+    default:
+        Console.WriteLine("Invalid database");
+        break;
+}

@@ -13,14 +13,46 @@ public abstract class ServiceBase<T>
         AccountsRange = [1, quantity];
     }
 
-    public void Execute()
-    {
-        // TODO: insert one transaction at a time, assyncronously
-        var inserts = CreateInserts();
-        ExecuteInserts(inserts);
+    /*
+        Notes:
+            - inserts, at this time, are all at once
+            - selects are one at a time
+    */
 
-        // TODO: execute one at a time, assynchronously
-        ExecuteSelects();
+    public void Execute(string executionType)
+    {
+        switch(executionType)
+        {
+            case "insert":
+                // TODO: insert one transaction at a time, assyncronously
+                var inserts = CreateInserts();
+                ExecuteInserts(inserts);
+                break;
+            case "select":
+                // TODO: execute one at a time, assynchronously
+                ExecuteSelects();
+                break;
+            default:
+                Console.WriteLine("Invalid execution type");
+                break;
+        }
+    }
+
+    private void ExecuteSelects()
+    {
+        var times = new List<long>();
+
+        var selects = CreateSelects();
+
+        var beginTime = DateTime.Now.Ticks;
+        foreach (var select in selects)
+        {
+            var lastTick = DateTime.Now.Ticks;
+            DoSelect(select);
+            var time = DateTime.Now.Ticks - lastTick;
+            times.Add(time);
+        }
+        Console.WriteLine($"Finished in {TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
 
         IEnumerable<SelectQuery> CreateSelects()
         {
@@ -34,23 +66,6 @@ public abstract class ServiceBase<T>
                     Timestamp = new DateTimeOffset(DateTime.Now.AddDays(range * -1)).ToUnixTimeSeconds()
                 };
             }
-        }
-
-        void ExecuteSelects()
-        {
-            var times = new List<long>();
-
-            var selects = CreateSelects();
-
-            var beginTime = DateTime.Now.Ticks;
-            foreach (var select in selects)
-            {
-                var lastTick = DateTime.Now.Ticks;
-                DoSelect(select);
-                var time = DateTime.Now.Ticks - lastTick;
-                times.Add(time);
-            }
-            Console.WriteLine($"Finished in {TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
         }
     }
 

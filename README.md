@@ -6,3 +6,8 @@
 * for SQL Server
 - install dotnet ef: `dotnet tool install --global dotnet-ef`
 - migrate up `dotnet ef --project QueriesApp/ database update`
+
+* for MongoDB
+- setup database
+
+# Usage
