@@ -16,7 +16,11 @@ public class MongoService : ServiceBase<MongoPOCO>
     }
 
     protected override void ExecuteInserts(IEnumerable<MongoPOCO> inserts)
-        => db.InsertMany(inserts);
+    {
+        var beginTime = DateTime.Now.Ticks;
+        db.InsertMany(inserts);
+        Console.WriteLine($"Finished in {TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
+    }
 
     protected override MongoPOCO MakePoco()
         => new MongoPOCO

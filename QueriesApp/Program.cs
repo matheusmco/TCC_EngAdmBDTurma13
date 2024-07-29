@@ -1,7 +1,4 @@
-﻿/* TODO:
-*   - select type (insert/select) by args
-*/
-string executionType = args[0];
+﻿string executionType = args[0];
 int quantity = int.Parse(args[1]);
 string database = args[2];
 
