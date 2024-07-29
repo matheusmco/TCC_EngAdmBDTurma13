@@ -9,14 +9,16 @@ public class SQLService : ServiceBase<SQLPOCO>
     protected override void DoSelect(SelectQuery select)
     {
         var found = db.POCOS.Where(_ => _.AccountId == select.AccountId && _.Timestamp > select.Timestamp);
-        foreach(var f in found)
+        foreach (var f in found)
             Console.WriteLine(f);
     }
 
     protected override void ExecuteInserts(IEnumerable<SQLPOCO> inserts)
     {
+        var beginTime = DateTime.Now.Ticks;
         db.AddRange(inserts);
         db.SaveChanges();
+        Console.WriteLine($"Finished in {TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
     }
 
     protected override SQLPOCO MakePoco()
