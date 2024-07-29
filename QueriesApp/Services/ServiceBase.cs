@@ -13,23 +13,15 @@ public abstract class ServiceBase<T>
         AccountsRange = [1, quantity];
     }
 
-    /*
-        Notes:
-            - inserts, at this time, are all at once
-            - selects are one at a time
-    */
-
     public void Execute(string executionType)
     {
         switch(executionType)
         {
             case "insert":
-                // TODO: insert one transaction at a time, assyncronously
                 var inserts = CreateInserts();
                 ExecuteInserts(inserts);
                 break;
             case "select":
-                // TODO: execute one at a time, assynchronously
                 ExecuteSelects();
                 break;
             default:
