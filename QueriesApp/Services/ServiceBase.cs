@@ -44,7 +44,7 @@ public abstract class ServiceBase<T>
             var time = DateTime.Now.Ticks - lastTick;
             times.Add(time);
         }
-        Console.WriteLine($"Finished in {TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
+        Console.WriteLine($"{TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
 
         IEnumerable<SelectQuery> CreateSelects()
         {

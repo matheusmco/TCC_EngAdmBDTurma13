@@ -18,7 +18,7 @@ public class SQLService : ServiceBase<SQLPOCO>
         var beginTime = DateTime.Now.Ticks;
         db.AddRange(inserts);
         db.SaveChanges();
-        Console.WriteLine($"Finished in {TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
+        Console.WriteLine($"{TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
     }
 
     protected override SQLPOCO MakePoco()
