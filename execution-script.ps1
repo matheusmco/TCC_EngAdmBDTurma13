@@ -1,3 +1,6 @@
-param ($timesToExecute = 1, $executionType = 'select', $database = 'sql')
+param ($itemsNumber = 1, $executionType = 'select', $database = 'sql')
 
-dotnet run --project .\QueriesApp\QueriesApp.csproj $executionType $timesToExecute $database | Out-File -FilePath .\results.txt
+for($i = 0; $i -lt 100; $i++)
+{
+    dotnet run --project .\QueriesApp\QueriesApp.csproj $executionType $itemsNumber $database >> result.txt
+}
