@@ -7,11 +7,7 @@ public class SQLService : ServiceBase<SQLPOCO>
     }
 
     protected override void DoSelect(SelectQuery select)
-    {
-        var found = db.POCOS.Where(_ => _.AccountId == select.AccountId && _.Timestamp > select.Timestamp);
-        foreach (var f in found)
-            Console.WriteLine(f);
-    }
+        => db.POCOS.Where(_ => _.AccountId == select.AccountId && _.Timestamp > select.Timestamp);
 
     protected override void ExecuteInserts(IEnumerable<SQLPOCO> inserts)
     {

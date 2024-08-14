@@ -32,18 +32,11 @@ public abstract class ServiceBase<T>
 
     private void ExecuteSelects()
     {
-        var times = new List<long>();
-
         var selects = CreateSelects();
 
         var beginTime = DateTime.Now.Ticks;
         foreach (var select in selects)
-        {
-            var lastTick = DateTime.Now.Ticks;
             DoSelect(select);
-            var time = DateTime.Now.Ticks - lastTick;
-            times.Add(time);
-        }
         Console.WriteLine($"{TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
 
         IEnumerable<SelectQuery> CreateSelects()
