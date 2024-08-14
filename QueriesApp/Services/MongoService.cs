@@ -11,8 +11,6 @@ public class MongoService : ServiceBase<MongoPOCO>
     protected override void DoSelect(SelectQuery s)
     {
         var found = db.Find(_ => _.AccountId == s.AccountId && _.Timestamp > s.Timestamp).ToList();
-        foreach (var f in found)
-            Console.WriteLine(f);
     }
 
     protected override void ExecuteInserts(IEnumerable<MongoPOCO> inserts)
