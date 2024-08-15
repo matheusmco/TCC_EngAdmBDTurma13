@@ -9,11 +9,6 @@ public class SQLPOCO
     public int AccountId { get; set; }
     public double Value { get; set; }
     public long Timestamp { get; set; }
-
-    public override string ToString()
-    {
-        return $"AccountId: {AccountId}, Value: {Value}, Timestamp: {Timestamp}";
-    }
 }
 
 public class MongoPOCO
@@ -22,11 +17,11 @@ public class MongoPOCO
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
     public int AccountId { get; set; }
+    public List<MongoStatement> Statement { get; set; }
+}
+
+public class MongoStatement
+{
     public double Value { get; set; }
     public long Timestamp { get; set; }
-
-    public override string ToString()
-    {
-        return $"AccountId: {AccountId}, Value: {Value}, Timestamp: {Timestamp}";
-    }
 }
