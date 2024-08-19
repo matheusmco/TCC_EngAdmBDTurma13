@@ -17,14 +17,16 @@ public class MongoService : ServiceBase<MongoPOCO>
     {
         var inserts = GroupPocosByAccountId(pocos);
 
-        var beginTime = DateTime.Now.Ticks;
         var newDocuments = new List<MongoPOCO>();
+        var updates = new List<(FilterDefinition<MongoPOCO>, UpdateDefinition<MongoPOCO>)>();
+        
+        var beginTime = DateTime.Now.Ticks;
         foreach (var i in inserts)
         {
             var document = db.Find(_ => _.AccountId == i.AccountId).FirstOrDefault();
             if (document == null)
                 newDocuments.Add(i);
-            else
+            else // TODO: add in a list, to update after
                 UpdatePoco(i, document);
         }
 
