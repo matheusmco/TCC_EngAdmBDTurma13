@@ -10,29 +10,47 @@ public class MongoService : ServiceBase<MongoPOCO>
 
     protected override void DoSelect(SelectQuery s)
     {
-        var found = db.Find(_ => _.AccountId == s.AccountId).ToList();
+        var _ = db.Find(_ => _.AccountId == s.AccountId).ToList();
     }
 
-    protected override void ExecuteInserts(IEnumerable<MongoPOCO> inserts)
+    protected override void ExecuteInserts(IEnumerable<MongoPOCO> pocos)
     {
+        var inserts = GroupPocosByAccountId(pocos);
+
         var beginTime = DateTime.Now.Ticks;
         var newDocuments = new List<MongoPOCO>();
         foreach (var i in inserts)
         {
-            var document = db.Find(_ => _.AccountId == i.AccountId).First();
+            var document = db.Find(_ => _.AccountId == i.AccountId).FirstOrDefault();
             if (document == null)
                 newDocuments.Add(i);
             else
-            {
-                var statement = document.Statement;
-                statement.Add(i.Statement.First());
-                var filter = Builders<MongoPOCO>.Filter.Eq(_ => _.AccountId, i.AccountId);
-                var update = Builders<MongoPOCO>.Update.Set(_ => _.Statement, statement);
-                db.UpdateMany(filter, update);
-            }
+                UpdatePoco(i, document);
         }
-        db.InsertMany(newDocuments);
+
+        InsertNewPocos(newDocuments);
+
         Console.WriteLine($"{TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
+    }
+
+    private static IEnumerable<MongoPOCO> GroupPocosByAccountId(IEnumerable<MongoPOCO> pocos)
+        => from i in pocos
+               group i by i.AccountId into g
+               select new MongoPOCO { AccountId = g.Key, Statement = g.SelectMany(_ => _.Statement).ToList() };
+
+    private void UpdatePoco(MongoPOCO i, MongoPOCO document)
+    {
+        var statement = document.Statement;
+        statement.AddRange(i.Statement);
+        var filter = Builders<MongoPOCO>.Filter.Eq(_ => _.AccountId, i.AccountId);
+        var update = Builders<MongoPOCO>.Update.Set(_ => _.Statement, statement);
+        db.UpdateMany(filter, update);
+    }
+
+    private void InsertNewPocos(List<MongoPOCO> newDocuments)
+    {
+        if (newDocuments.Any())
+            db.InsertMany(newDocuments);
     }
 
     protected override MongoPOCO MakePoco()
