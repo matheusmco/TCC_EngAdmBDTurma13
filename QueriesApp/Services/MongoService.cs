@@ -10,7 +10,7 @@ public class MongoService : ServiceBase<MongoPOCO>
 
     protected override void DoSelect(SelectQuery s)
     {
-        var _ = db.Find(_ => _.AccountId == s.AccountId).ToList();
+        var _ = db.Find(_ => _.AccountId == s.AccountId).FirstOrDefault();
     }
 
     protected override void ExecuteInserts(IEnumerable<MongoPOCO> pocos)
