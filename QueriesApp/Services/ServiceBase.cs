@@ -41,14 +41,11 @@ public abstract class ServiceBase<T>
 
         IEnumerable<SelectQuery> CreateSelects()
         {
-            int[] dateRanges = { 30, 45, 60, 90 };
             for (int i = 0; i < _quantity; i++)
             {
-                var range = dateRanges[Random.Next(0, dateRanges.Count())];
                 yield return new SelectQuery
                 {
-                    AccountId = Random.Next(AccountsRange[0], AccountsRange[1]),
-                    Timestamp = new DateTimeOffset(DateTime.Now.AddDays(range * -1)).ToUnixTimeSeconds()
+                    AccountId = Random.Next(AccountsRange[0], AccountsRange[1])
                 };
             }
         }
