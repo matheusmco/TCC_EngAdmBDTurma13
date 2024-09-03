@@ -9,5 +9,3 @@
 
 * for MongoDB
 - setup database
-
-# Usage

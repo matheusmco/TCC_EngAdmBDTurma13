@@ -7,8 +7,11 @@ switch (database)
     case "sql":
         new SQLService(quantity).Execute(executionType);
         break;
-    case "mongo":
-        new MongoService(quantity).Execute(executionType);
+    case "mongo_document":
+        new MongoAsDocumentService(quantity).Execute(executionType);
+        break;
+    case "mongo_event":
+        new MongoAsEventService(quantity).Execute(executionType);
         break;
     default:
         Console.WriteLine("Invalid database");

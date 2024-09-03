@@ -1,16 +1,9 @@
 using MongoDB.Driver;
 
-public class MongoService : ServiceBase<MongoPOCO>
+public class MongoAsDocumentService : MongoServiceBase
 {
-    private IMongoCollection<MongoPOCO> db { get; set; }
-    public MongoService(int quantity) : base(quantity)
+    public MongoAsDocumentService(int quantity) : base(quantity)
     {
-        db = new MongoContext().POCO;
-    }
-
-    protected override void DoSelect(SelectQuery s)
-    {
-        var _ = db.Find(_ => _.AccountId == s.AccountId).FirstOrDefault();
     }
 
     protected override void ExecuteInserts(IEnumerable<MongoPOCO> pocos)
@@ -57,15 +50,4 @@ public class MongoService : ServiceBase<MongoPOCO>
         if (newDocuments.Any())
             db.InsertMany(newDocuments);
     }
-
-    protected override MongoPOCO MakePoco()
-        => new MongoPOCO
-        {
-            AccountId = Random.Next(AccountsRange[0], AccountsRange[1]),
-            Statement = [ new MongoStatement
-            {
-                Value = double.Round(Random.NextDouble() * ValuesRange[Random.Next(0, 2)], 2),
-                Timestamp = Random.NextInt64(TimestampRange[0], TimestampRange[1])
-            }]
-        };
 }
