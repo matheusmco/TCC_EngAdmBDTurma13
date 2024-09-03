@@ -10,6 +10,6 @@ public class MongoAsEventService : MongoServiceBase
     {
         var beginTime = DateTime.Now.Ticks;
         db.InsertMany(pocos);
-        Console.WriteLine($"Finished in {TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
+        Console.WriteLine($"{TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
     }
 }
