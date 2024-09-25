@@ -1,9 +1,9 @@
 using MongoDB.Driver;
 
-public abstract class MongoServiceBase : ServiceBase<MongoPOCO>
+public class MongoService : ServiceBase<MongoPOCO>
 {
     protected IMongoCollection<MongoPOCO> db { get; set; }
-    public MongoServiceBase(int quantity) : base(quantity)
+    public MongoService(int quantity) : base(quantity)
     {
         db = new MongoContext().POCO;
     }
@@ -23,4 +23,11 @@ public abstract class MongoServiceBase : ServiceBase<MongoPOCO>
                 Timestamp = Random.NextInt64(TimestampRange[0], TimestampRange[1])
             }]
         };
+
+    protected override void ExecuteInserts(IEnumerable<MongoPOCO> pocos)
+    {
+        var beginTime = DateTime.Now.Ticks;
+        db.InsertMany(pocos);
+        Console.WriteLine($"{TimeSpan.FromTicks(DateTime.Now.Ticks - beginTime).TotalSeconds}");
+    }
 }
