@@ -17,11 +17,8 @@ public class MongoService : ServiceBase<MongoPOCO>
         => new MongoPOCO
         {
             AccountId = Random.Next(AccountsRange[0], AccountsRange[1]),
-            Statement = [ new MongoStatement
-            {
-                Value = double.Round(Random.NextDouble() * ValuesRange[Random.Next(0, 2)], 2),
-                Timestamp = Random.NextInt64(TimestampRange[0], TimestampRange[1])
-            }]
+            Value = double.Round(Random.NextDouble() * ValuesRange[Random.Next(0, 2)], 2),
+            Timestamp = Random.NextInt64(TimestampRange[0], TimestampRange[1])
         };
 
     protected override void ExecuteInserts(IEnumerable<MongoPOCO> pocos)
