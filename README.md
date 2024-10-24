@@ -9,3 +9,9 @@
 
 * for MongoDB
 - setup database
+
+# Running
+`dotnet run --project .\QueriesApp\QueriesApp.csproj <operation> <quantity> <database>`
+where `database`:
+    - `sql` for SQL Server
+    - `mongo` for MongoDB
