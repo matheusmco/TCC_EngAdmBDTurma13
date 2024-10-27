@@ -10,8 +10,12 @@
 * for MongoDB
 - setup database
 
-# Running
+# Running 
 `dotnet run --project .\QueriesApp\QueriesApp.csproj <operation> <quantity> <database>`
+where `operation`:
+    - `insert`
+    - `select`
+where `quantity`: an integer. The number of operations in database
 where `database`:
     - `sql` for SQL Server
     - `mongo` for MongoDB
